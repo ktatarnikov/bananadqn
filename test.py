@@ -9,14 +9,16 @@ from unityagents import UnityEnvironment
 
 
 class TestRunner:
-    def __init__(self, env_path: str):
+    def __init__(self, env_path: str, checkpoint_path: str):
         self.env = UnityEnvironment(file_name=env_path)
         self.brain_name = self.env.brain_names[0]
         self.agent = Agent(state_size=37, action_size=4, seed=42)
+        self.checkpoint_path = checkpoint_path
 
     def run(self) -> None:
         # load the weights from file
-        self.agent.qnetwork_local.load_state_dict(torch.load('checkpoint.pth'))
+        self.agent.qnetwork_local.load_state_dict(
+            torch.load(self.checkpoint_path))
 
         rewards = 0
 
@@ -42,4 +44,4 @@ class TestRunner:
 
 
 if __name__ == '__main__':
-    TestRunner("./Banana_Linux/Banana.x86_64").run()
+    TestRunner("./Banana_Linux/Banana.x86_64", "./checkpoint.pth").run()

@@ -10,10 +10,11 @@ from unityagents import UnityEnvironment
 
 
 class TrainRunner:
-    def __init__(self, env_path: str):
+    def __init__(self, env_path: str, checkpoint_path: str):
         self.env = UnityEnvironment(file_name=env_path)
         self.brain_name = self.env.brain_names[0]
         self.agent = Agent(state_size=37, action_size=4, seed=42)
+        self.checkpoint_path = checkpoint_path
 
     def run(self,
             n_episodes: int = 1800,
@@ -69,7 +70,7 @@ class TrainRunner:
                     '\nEnvironment solved in {:d} episodes!\tAverage Score: {:.2f}'
                     .format(i_episode - 100, np.mean(scores_window)))
                 torch.save(self.agent.qnetwork_local.state_dict(),
-                           'checkpoint.pth')
+                           self.checkpoint_path)
                 break
         return scores
 
@@ -85,7 +86,7 @@ def plot_scores(scores: Sequence[float]) -> None:
 
 
 if __name__ == '__main__':
-    trainer = TrainRunner("./Banana_Linux/Banana.x86_64")
+    trainer = TrainRunner("./Banana_Linux/Banana.x86_64", "./checkpoint.pth")
     scores = trainer.run()
     trainer.close()
     plot_scores(scores)
