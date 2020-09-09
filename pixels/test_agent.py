@@ -1,10 +1,8 @@
 from collections import deque
 
-import matplotlib.pyplot as plt
-import numpy as np
-
 import torch
-from agent import Agent
+from pixels.agent import Agent
+from pixels.train import LastNFrameBuffer
 from unityagents import UnityEnvironment
 
 
@@ -17,21 +15,26 @@ class TestRunner:
 
     def run(self) -> None:
         # load the weights from file
-        self.agent.qnetwork_local.load_state_dict(
-            torch.load(self.checkpoint_path))
+        model_state = torch.load(self.checkpoint_path)
+        self.agent.qnetwork_local.load_state_dict(model_state)
 
         rewards = 0
+        frame_buffer = LastNFrameBuffer(n=5)
 
         for i in range(10):
             # reset the environment
             env_info = self.env.reset(train_mode=False)[self.brain_name]
-            state = env_info.vector_observations[0]  # get the current state
+            frame = env_info.vector_observations[0]  # get the current state
+            frame_buffer.add(frame)
+            state = frame_buffer.get_last()
             for j in range(200):
                 action = self.agent.act(state)
-
-                env_info = self.env.step(action)[
-                    self.brain_name]  # send the action to the environment
-                state = env_info.vector_observations[0]  # get the next state
+                # send the action to the environment
+                env_info = self.env.step(action)[self.brain_name]
+                # get the next frame
+                next_frame = env_info.visual_observations[0]
+                frame_buffer.add(next_frame)
+                state = frame_buffer.get_last()
                 reward = env_info.rewards[0]  # get the reward
                 done = env_info.local_done[0]  # see if episode has finished
                 rewards += reward
@@ -44,4 +47,4 @@ class TestRunner:
 
 
 if __name__ == '__main__':
-    TestRunner("./Banana_Linux/Banana.x86_64", "./checkpoint.pth").run()
+    TestRunner("./Banana_Linux/Banana.x86_64", "./pixels_checkpoint.pth").run()

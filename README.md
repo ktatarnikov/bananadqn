@@ -1,6 +1,6 @@
 [//]: # (Image References)
 
-[image1]: https://user-images.githubusercontent.com/10624937/42135619-d90f2f28-7d12-11e8-8823-82b970a54d7e.gif "Trained Agent"
+[image1]: trained_agent.gif "Trained Agent"
 
 # Project 1: Navigation
 
@@ -25,14 +25,52 @@ The task is episodic, and in order to solve the environment, your agent must get
 1. Create and activate python environment
 ```
   conda env create -f environment.yml
-  conda activate bananadqn
+  conda activate bananaenv
 ```
 
 2. Download environment as described in section `Udacity Instructions`
 
   Note that for Linux version there is a handy script `download.sh`
 
-3. Train network:
+# Training and testing
+
+1. Training the Agent
+
+  ```
+    python -m train_agent
+  ```
+
+  This command will produce the checkpoint.pth file
+
+2. Testing the Agent
+
+  ```
+    python -m test_agent
+  ```
+
+3. Running the same commands in jupyter notebook and implementation details
+  - run jupyter `jupyter notebook`
+  - open `Report.ipynb`
+
+# Learning from pixels
+
+1. Training the Agent
+
+  ```
+    python -m pixels.train_agent
+  ```
+
+  This command will produce the checkpoint.pth file
+
+2. Testing the Agent
+
+  ```
+    python -m pixels.test_agent
+  ```
+
+3. Running the same commands in jupyter notebook and implementation details
+  - run jupyter `jupyter notebook`
+  - open `pixels/Report.ipynb`
 
 
 ## Udacity Instructions
