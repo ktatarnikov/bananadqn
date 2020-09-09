@@ -19,7 +19,7 @@ class TestRunner:
         self.agent.qnetwork_local.load_state_dict(model_state)
 
         rewards = 0
-        frame_buffer = LastNFrameBuffer(n=5)
+        frame_buffer = LastNFrameBuffer(self.state_size, n=5)
 
         for i in range(10):
             # reset the environment

@@ -9,22 +9,21 @@ from pixels.agent import Agent
 from pixels.lastn_frame_buffer import LastNFrameBuffer
 from unityagents import UnityEnvironment
 
-state_size = (1, 3, 4, 84, 84)
-
 
 class TrainRunner:
     def __init__(self, env_path: str, checkpoint_path: str):
         self.env = UnityEnvironment(file_name=env_path)
         self.brain_name = self.env.brain_names[0]
-        self.agent = Agent(state_size=state_size, action_size=4, seed=42)
+        self.state_size = (1, 3, 4, 84, 84)
+        self.agent = Agent(state_size=self.state_size, action_size=4, seed=42)
         self.checkpoint_path = checkpoint_path
 
-    def train(self,
-              n_episodes: int = 2200,
-              max_t: int = 2000,
-              eps_start: float = 1.0,
-              eps_end: float = 0.01,
-              eps_decay: float = 0.995):
+    def run(self,
+            n_episodes: int = 2200,
+            max_t: int = 2000,
+            eps_start: float = 1.0,
+            eps_end: float = 0.01,
+            eps_decay: float = 0.995):
         """Deep Q-Learning.
 
         Params
@@ -43,7 +42,7 @@ class TrainRunner:
         scores = []  # list containing scores from each episode
         scores_window = deque(maxlen=100)  # last 100 scores
         eps = eps_start  # initialize epsilon
-        frame_buffer = LastNFrameBuffer(n=4)
+        frame_buffer = LastNFrameBuffer(self.state_size, n=4)
         for i_episode in range(1, n_episodes + 1):
             # reset the environment
             env_info = self.env.reset(train_mode=True)[self.brain_name]
@@ -99,7 +98,7 @@ def plot_scores(scores: Sequence[float]) -> None:
 
 
 if __name__ == '__main__':
-    trainer = TrainRunner("./Banana_Linux/Banana.x86_64",
+    trainer = TrainRunner("./pixels/VisualBanana_Linux/Banana.x86_64",
                           "./pixels_checkpoint.pth")
     scores = trainer.run()
     trainer.close()

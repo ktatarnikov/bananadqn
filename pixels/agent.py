@@ -44,7 +44,8 @@ class Agent:
         self.optimizer = optim.Adam(self.qnetwork_local.parameters(), lr=LR)
 
         # Replay memory
-        self.memory = ReplayBuffer(action_size, BUFFER_SIZE, BATCH_SIZE, seed)
+        self.memory = ReplayBuffer(action_size, BUFFER_SIZE, BATCH_SIZE,
+                                   self.device, seed)
         # Initialize time step (for updating every UPDATE_EVERY steps)
         self.t_step = 0
 
@@ -128,7 +129,7 @@ class Agent:
 
 class ReplayBuffer:
     """Fixed-size buffer to store experience tuples."""
-    def __init__(self, action_size, buffer_size, batch_size, seed):
+    def __init__(self, action_size, buffer_size, batch_size, device, seed):
         """Initialize a ReplayBuffer object.
 
         Params
@@ -144,6 +145,7 @@ class ReplayBuffer:
         self.experience = namedtuple(
             "Experience",
             field_names=["state", "action", "reward", "next_state", "done"])
+        self.device = device
         self.seed = random.seed(seed)
 
     def add(self, state, action, reward, next_state, done):

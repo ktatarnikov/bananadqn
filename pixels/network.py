@@ -24,7 +24,7 @@ class QNetwork(nn.Module):
             nn.ReLU())
 
         self.layer2 = nn.Sequential( \
-            nn.Conv3d(in_channels=512, out_channels=512, kernel_size=(1,3,3), stride=(1,3,3)), \
+            nn.Conv3d(in_channels=256, out_channels=512, kernel_size=(1,3,3), stride=(1,3,3)), \
             nn.BatchNorm3d(512), \
             nn.ReLU())
 
