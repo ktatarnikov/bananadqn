@@ -49,7 +49,8 @@ class Agent:
         # Initialize time step (for updating every UPDATE_EVERY steps)
         self.t_step = 0
 
-    def step(self, state, action, reward, next_state, done):
+    def step(self, state: Sequence[int], action: int, reward: float,
+             next_state: Sequence[int], done: bool):
         # Save experience in replay memory
         self.memory.add(state, action, reward, next_state, done)
 

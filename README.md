@@ -20,6 +20,23 @@ The state space has 37 dimensions and contains the agent's velocity, along with 
 
 The task is episodic, and in order to solve the environment, your agent must get an average score of +13 over 100 consecutive episodes.
 
+# Install
+
+1. Create and activate python environment
+```
+  conda env create -f environment.yml
+  conda activate bananadqn
+```
+
+2. Download environment as described in section `Udacity Instructions`
+
+  Note that for Linux version there is a handy script `download.sh`
+
+3. Train network:
+
+
+## Udacity Instructions
+
 ### Default setup
 
 1. Download the environment from one of the links below.  You need only select the environment that matches your operating system:
