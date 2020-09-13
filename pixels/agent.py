@@ -1,5 +1,6 @@
 import random
 from collections import deque, namedtuple
+from typing import Any, Callable, Dict, Optional, Sequence, Tuple, Union
 
 import numpy as np
 
@@ -18,7 +19,7 @@ UPDATE_EVERY = 4  # how often to update the network
 
 class Agent:
     """Interacts with and learns from the environment."""
-    def __init__(self, state_size: int, action_size: int, seed: int):
+    def __init__(self, state_size: Tuple[int], action_size: int, seed: int):
         """Initialize an Agent object.
 
         Params
@@ -29,7 +30,6 @@ class Agent:
         """
         self.device = torch.device(
             "cuda" if torch.cuda.is_available() else "cpu")
-        # device = torch.device("cpu")
         print("device:", self.device)
 
         self.state_size = state_size
@@ -37,10 +37,8 @@ class Agent:
         self.seed = random.seed(seed)
 
         # Q-Network
-        self.qnetwork_local = QNetwork(state_size, action_size,
-                                       seed).to(self.device)
-        self.qnetwork_target = QNetwork(state_size, action_size,
-                                        seed).to(self.device)
+        self.qnetwork_local = QNetwork(action_size, seed).to(self.device)
+        self.qnetwork_target = QNetwork(action_size, seed).to(self.device)
         self.optimizer = optim.Adam(self.qnetwork_local.parameters(), lr=LR)
 
         # Replay memory
@@ -49,7 +47,8 @@ class Agent:
         # Initialize time step (for updating every UPDATE_EVERY steps)
         self.t_step = 0
 
-    def step(self, state, action, reward, next_state, done):
+    def step(self, state: np.array, action: int, reward: float,
+             next_state: np.array, done: bool):
         # Save experience in replay memory
         self.memory.add(state, action, reward, next_state, done)
 
@@ -61,7 +60,7 @@ class Agent:
                 experiences = self.memory.sample()
                 self.learn(experiences, GAMMA)
 
-    def act(self, state, eps=0.):
+    def act(self, state: np.array, eps: float = 0.) -> int:
         """Returns actions for given state as per current policy.
 
         Params
@@ -81,7 +80,7 @@ class Agent:
         else:
             return random.choice(np.arange(self.action_size))
 
-    def learn(self, experiences, gamma):
+    def learn(self, experiences, gamma: float) -> None:
         """Update value parameters using given batch of experience tuples.
 
         Params
@@ -111,7 +110,8 @@ class Agent:
         # ------------------- update target network ------------------- #
         self.soft_update(self.qnetwork_local, self.qnetwork_target, TAU)
 
-    def soft_update(self, local_model, target_model, tau):
+    def soft_update(self, local_model: QNetwork, target_model: QNetwork,
+                    tau: float) -> None:
         """Soft update model parameters.
         θ_target = τ*θ_local + (1 - τ)*θ_target
 
@@ -175,6 +175,6 @@ class ReplayBuffer:
 
         return (states, actions, rewards, next_states, dones)
 
-    def __len__(self):
+    def __len__(self) -> int:
         """Return the current size of internal memory."""
         return len(self.memory)

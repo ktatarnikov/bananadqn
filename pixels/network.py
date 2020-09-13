@@ -1,4 +1,7 @@
 from collections import OrderedDict
+from typing import Any, Callable, Dict, Optional, Sequence, Tuple, Union
+
+import numpy as np
 
 import torch
 import torch.nn as nn
@@ -7,7 +10,7 @@ import torch.nn.functional as F
 
 class QNetwork(nn.Module):
     """Actor (Policy) Model."""
-    def __init__(self, state_size, action_size: int, seed: int):
+    def __init__(self, action_size: int, seed: int):
         """Initialize parameters and build model.
         Params
         ======
@@ -37,7 +40,7 @@ class QNetwork(nn.Module):
             nn.Linear(in_features=4608, out_features=1024), nn.ReLU())
         self.layer6 = nn.Linear(in_features=1024, out_features=action_size)
 
-    def forward(self, state):
+    def forward(self, state: np.array) -> torch.Tensor:
         """Build a network that maps state -> action values."""
         x = self.layer1(state)
         x = self.layer2(x)

@@ -49,7 +49,6 @@ class TrainRunner:
             frame = env_info.visual_observations[0]  # get the current state
             frame_buffer.add(frame)
             state = frame_buffer.get_last()
-            # print("state: ", state)
             score = 0
             for t in range(max_t):
 
@@ -57,8 +56,8 @@ class TrainRunner:
 
                 #  send the action to the environment
                 env_info = self.env.step(action)[self.brain_name]
-                frame_buffer.add(env_info.visual_observations[0])
 
+                frame_buffer.add(env_info.visual_observations[0])
                 next_state = frame_buffer.get_last()
                 reward = env_info.rewards[0]  # get the reward
                 done = env_info.local_done[0]  # see if episode has finished

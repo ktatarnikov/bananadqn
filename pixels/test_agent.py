@@ -1,4 +1,5 @@
 from collections import deque
+from typing import Any, Callable, Dict, Optional, Sequence, Union
 
 import torch
 from pixels.agent import Agent
