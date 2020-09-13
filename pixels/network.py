@@ -33,33 +33,16 @@ class QNetwork(nn.Module):
             nn.BatchNorm3d(512), \
             nn.ReLU())
 
-        print("state_size: ", state_size)
-        linear_input = self.conv_layers_shape(state_size)
-        print("linear_input: ", linear_input)
         self.layer4 = nn.Sequential(
-            nn.Linear(in_features=linear_input, out_features=1024), nn.ReLU())
-        # self.layer5 = nn.Dropout2d(0.25)
+            nn.Linear(in_features=4608, out_features=1024), nn.ReLU())
         self.layer6 = nn.Linear(in_features=1024, out_features=action_size)
 
     def forward(self, state):
         """Build a network that maps state -> action values."""
-        # print("state: ", state.size())
         x = self.layer1(state)
         x = self.layer2(x)
         x = self.layer3(x)
         x = x.view(x.size(0), -1)
         x = self.layer4(x)
-        # x = self.layer5(x)
         x = self.layer6(x)
         return x
-
-    def conv_layers_shape(self, state_size) -> int:
-        x = torch.rand(state_size)
-        x = self.layer1(x)
-        x = self.layer2(x)
-        x = self.layer3(x)
-        # print("x.size ", x.size())
-        print("x.view(x.size(0), -1) ", x.view(x.size(0), -1).size())
-        return x.view(x.size(0), -1).size(1)
-        # print("x.data.view(1, -1).size(1) ", x.data.view(1, -1).size(1))
-        # return x.data.view(1, -1).size(1)

@@ -99,7 +99,7 @@ def plot_scores(scores: Sequence[float]) -> None:
 
 if __name__ == '__main__':
     trainer = TrainRunner("./pixels/VisualBanana_Linux/Banana.x86_64",
-                          "./pixels_checkpoint.pth")
+                          "./pixels/pixels_checkpoint.pth")
     scores = trainer.run()
     trainer.close()
     plot_scores(scores)

@@ -40,7 +40,7 @@ The task is episodic, and in order to solve the environment, your agent must get
     python -m train_agent
   ```
 
-  This command will produce the checkpoint.pth file
+  This command will produce the checkpoint.pth file.
 
 2. Testing the Agent
 
@@ -60,7 +60,37 @@ The task is episodic, and in order to solve the environment, your agent must get
     python -m pixels.train_agent
   ```
 
-  This command will produce the checkpoint.pth file
+  This command will produce the pixels/pixels_checkpoint.pth file.
+
+```
+  'Academy' started successfully!
+  Unity Academy name: Academy
+          Number of Brains: 1
+          Number of External Brains : 1
+          Lesson number : 0
+          Reset Parameters :
+
+  Unity brain name: BananaBrain
+          Number of Visual Observations (per agent): 1
+          Vector Observation space type: continuous
+          Vector Observation space size (per agent): 0
+          Number of stacked Vector Observation: 1
+          Vector Action space type: discrete
+          Vector Action space size (per agent): 4
+          Vector Action descriptions: , , ,
+  device: cuda
+  Episode 100	Average Score: 0.162
+  Episode 200	Average Score: 1.18
+  Episode 300	Average Score: 2.84
+  Episode 400	Average Score: 5.73
+  Episode 500	Average Score: 8.65
+  Episode 600	Average Score: 10.55
+  Episode 700	Average Score: 11.88
+  Episode 800	Average Score: 11.67
+  Episode 900	Average Score: 12.50
+  Episode 990	Average Score: 13.01
+  Environment solved in 890 episodes!	Average Score: 13.01
+```
 
 2. Testing the Agent
 
@@ -68,7 +98,8 @@ The task is episodic, and in order to solve the environment, your agent must get
     python -m pixels.test_agent
   ```
 
-3. Running the same commands in jupyter notebook and implementation details
+3. Sicne the training takes considerable time, it is handy to train from command line.
+  The notebook report contains only information about testing and implementation details.
   - run jupyter `jupyter notebook`
   - open `pixels/Report.ipynb`
 
