@@ -9,6 +9,8 @@ from pixels.agent import Agent
 from pixels.lastn_frame_buffer import LastNFrameBuffer
 from unityagents import UnityEnvironment
 
+torch.set_num_threads(1)
+
 
 class TrainRunner:
     def __init__(self, env_path: str, checkpoint_path: str):
@@ -87,6 +89,9 @@ class TrainRunner:
                            self.checkpoint_path)
                 break
         return scores
+
+    def close(self) -> None:
+        self.env.close()
 
 
 def plot_scores(scores: Sequence[float]) -> None:

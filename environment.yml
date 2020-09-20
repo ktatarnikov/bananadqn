@@ -2,8 +2,12 @@ name: bananaenv
 channels:
   - conda-forge
   - defaults
+  - pytorch
 dependencies:
   - python=3.6
+  - pytorch==1.6.0
+  - cudatoolkit==10.2
+  - torchvision==0.7.0
   - pip:
     - tensorflow==1.7.1
     - Pillow>=4.2.1
@@ -15,7 +19,6 @@ dependencies:
     - pyyaml
     - protobuf==3.5.2
     - grpcio==1.11.0
-    - torch==1.0.0
     - pandas
     - scipy
     - ipykernel

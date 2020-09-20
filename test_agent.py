@@ -2,6 +2,8 @@ import torch
 from agent import Agent
 from unityagents import UnityEnvironment
 
+torch.set_num_threads(1)
+
 
 class TestRunner:
     def __init__(self, env_path: str, checkpoint_path: str):

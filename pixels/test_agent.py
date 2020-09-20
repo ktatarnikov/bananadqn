@@ -6,6 +6,8 @@ from pixels.agent import Agent
 from pixels.lastn_frame_buffer import LastNFrameBuffer
 from unityagents import UnityEnvironment
 
+torch.set_num_threads(2)
+
 
 class TestRunner:
     def __init__(self, env_path: str, checkpoint_path: str):
